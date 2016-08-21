@@ -179,16 +179,16 @@ viewEntry e =
               ]
             ]
           ]
-          , div
-            [ class "row panel-collapse collapse"
-            , id <| "entryInfo-" ++ (toString e.id)
-            , attribute "role" "tabpanel"
-            , attribute "aria-labelledby" <| "entryValues-" ++ (toString e.id)
-            ]
-            [ div
-              [ class "panel-body col-xs-12 col-sm-12" ]
-              [ text <| withDefault "" e.details ]
-            ]
-          ] 
+        ] 
+      ]
+      , div
+        [ class "row panel-collapse collapse"
+        , id <| "entryInfo-" ++ (toString e.id)
+        , attribute "role" "tabpanel"
+        , attribute "aria-labelledby" <| "entryValues-" ++ (toString e.id)
+        ]
+        [ div
+          [ class "panel-body col-xs-12 col-sm-12" ]
+          [ text <| withDefault "" e.details ]
         ]
       ]
