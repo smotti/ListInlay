@@ -28,3 +28,11 @@ $ python api.py
   
 After compilation and starting the api just open **index.html** in a browser of
 your choice.
+
+# TODO
+
+* Fix multiselectable
+  * Was working before, but not anymore, I think it stopped working after
+    moving the panel-body
+  * Or maybe the sorting of the entries list
+* Only fetch entry details if we didn't so previously
