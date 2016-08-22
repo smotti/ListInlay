@@ -228,7 +228,7 @@ viewEntry e =
                 [ class "btn-xs btn-info"
                 , attribute "role" "button"
                 , attribute "data-toggle" "collapse"
-                , attribute "data-parent" "#accordion"
+                --, attribute "data-parent" "#accordion"
                 , attribute "data-target" <| "#entryInfo-" ++ (toString e.id)
                 , attribute "aria-expanded" "false"
                 , attribute "aria-controls" <| "entryInfo-" ++ (toString e.id)
@@ -253,4 +253,4 @@ viewEntry e =
           [ class "panel-body col-xs-12 col-sm-12" ]
           [ text <| withDefault "" e.details ]
         ]
-      ]
+    ]
