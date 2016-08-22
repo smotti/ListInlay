@@ -46,7 +46,7 @@ type alias Model =
 
 init : (Model, Cmd Msg)
 init =
-  ( { entries = [ { id = 1
+  ( {--{ entries = [ { id = 1
                 , name = "Henry Lexington"
                 , address = "Nordwalk St."
                 , details = Nothing
@@ -57,12 +57,24 @@ init =
                 , details = Nothing
                 }
               ]
-    }
-  , Cmd.none
+    }--}
+    { entries = [] }
+  , fetchEntries
   )
 
 
 -- TASK
+
+fetchEntries : Cmd Msg
+fetchEntries =
+  let
+    url =
+      "http://127.0.0.1:5000/entries"
+    task =
+      Http.get decodeEntries url
+  in
+    Task.perform FetchEntriesFail FetchEntriesSucceed task
+
 
 fetchDetails : Int -> Cmd Msg
 fetchDetails id =
@@ -73,6 +85,11 @@ fetchDetails id =
       Http.get decodeEntry url
   in
     Task.perform FetchDetailsFail FetchDetailsSucceed task
+
+
+decodeEntries : Jd.Decoder (List Entry)
+decodeEntries =
+  Jd.list decodeEntry
 
 
 decodeEntry : Jd.Decoder Entry
@@ -90,6 +107,8 @@ decodeEntry =
 type Msg
   = Remove Int
   | Details Int
+  | FetchEntriesFail Http.Error
+  | FetchEntriesSucceed (List Entry)
   | FetchDetailsFail Http.Error
   | FetchDetailsSucceed Entry
 
@@ -113,6 +132,12 @@ update msg model =
             fetchDetails id
       in
         ( model, cmd )
+
+    FetchEntriesFail err ->
+      ( model, Cmd.none )
+
+    FetchEntriesSucceed es ->
+      ( { model | entries = es }, Cmd.none )
 
     FetchDetailsFail err ->
       ( model, Cmd.none )

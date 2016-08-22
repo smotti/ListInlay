@@ -35,4 +35,6 @@ your choice.
   * Was working before, but not anymore, I think it stopped working after
     moving the panel-body
   * Or maybe the sorting of the entries list
-* Only fetch entry details if we didn't so previously
+    * Nope that ain't it, confirmed by implementing the fetching of details
+      only when necessary. When we have fetched details of all entries no
+      sorting will occur but the multiselect is still broken.
