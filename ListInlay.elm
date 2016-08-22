@@ -20,6 +20,7 @@ main =
     , subscriptions = \_ -> Sub.none
     }
 
+
 -- MODEL
 
 type alias Entry =
@@ -29,8 +30,19 @@ type alias Entry =
   , details : Maybe String
   }
 
+
+newEntry : Entry
+newEntry =
+  { id = -1
+  , name = ""
+  , address = ""
+  , details = Nothing
+  }
+
+
 type alias Model =
   { entries : List Entry }
+
 
 init : (Model, Cmd Msg)
 init =
@@ -93,7 +105,14 @@ update msg model =
         ( { model | entries = entries }, Cmd.none )
   
     Details id ->
-      ( model, fetchDetails id )
+      let
+        cmd =
+          if hasDetails <| getEntry model.entries id then
+            Cmd.none
+          else
+            fetchDetails id
+      in
+        ( model, cmd )
 
     FetchDetailsFail err ->
       ( model, Cmd.none )
@@ -109,6 +128,24 @@ update msg model =
 removeEntry : List Entry -> Int -> List Entry
 removeEntry es id =
   List.filter (\e -> e.id /= id) es
+
+
+getEntry : List Entry -> Int -> Entry
+getEntry es id =
+  let
+    filtered =
+      List.filter (\e -> e.id == id) es
+  in
+    case List.head filtered of
+      Just e -> e
+      Nothing -> newEntry
+
+
+hasDetails : Entry -> Bool
+hasDetails e =
+  case e.details of
+    Just _ -> True
+    Nothing -> False
 
 
 -- VIEW
